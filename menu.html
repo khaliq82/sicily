@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu — Sicily Osteria · New York</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1A1714;--stone:#6B6057;--mist:#9A9189;
+  --parchment:#FDFCFA;--parchment-deep:#F5F3EF;
+  --blue:#1B4E72;--blue-light:#2A6A9A;--blue-pale:#E8F0F5;
+  --font-d:'DM Serif Display',Georgia,serif;--font-b:'DM Sans',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--parchment);color:var(--ink);font-family:var(--font-b);font-weight:300;overflow-x:hidden;line-height:1.7}
+/* ── INFO STRIP ── */
+.info-strip{position:fixed;top:0;left:0;right:0;z-index:101;background:var(--blue);padding:.62rem 2rem;display:flex;align-items:center;justify-content:center;gap:2.5rem;flex-wrap:wrap}
+.info-strip a,.info-strip span{font-size:.75rem;letter-spacing:.14em;color:rgba(244,239,230,.9);text-decoration:none;font-weight:400}
+.info-strip .sep{color:rgba(255,255,255,.3);font-size:.7rem}
+/* ── NAV — matches main site exactly ── */
+nav{position:fixed;top:36px;left:0;right:0;z-index:100;padding:0 3rem;height:58px;display:flex;align-items:center;justify-content:space-between;background:rgba(253,252,250,.96);backdrop-filter:blur(8px);border-bottom:1px solid rgba(27,78,114,.12)}
+.nav-logo{font-family:var(--font-d);font-size:1.25rem;letter-spacing:.04em;color:var(--ink);text-decoration:none}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{font-size:.8rem;letter-spacing:.1em;color:var(--stone);text-decoration:none;transition:color .2s;font-weight:400}
+.nav-links a:hover{color:var(--blue)}
+.nav-links a.active{color:var(--blue)}
+/* ── HERO ── */
+.menu-hero{padding:108px 3rem 1.5rem;background:var(--parchment);text-align:center}
+.menu-hero-eyebrow{font-size:.62rem;letter-spacing:.4em;color:var(--blue-light);margin-bottom:.5rem;text-transform:uppercase;font-weight:500}
+.menu-hero-title{font-family:var(--font-d);font-size:clamp(1.8rem,3.5vw,2.8rem);color:var(--ink);line-height:.95}
+.menu-hero-title em{font-style:italic;color:var(--blue);display:inline}
+.menu-hero-sub{font-family:var(--font-d);font-style:italic;font-size:clamp(.85rem,1.2vw,.98rem);color:var(--stone);margin-top:.5rem;max-width:560px;margin-left:auto;margin-right:auto;}
+/* ── MENU TAB NAV — sticky, matches uploaded reference style ── */
+.menu-tabs-wrap{position:sticky;top:94px;z-index:90;background:var(--parchment);padding:.9rem 2rem;border-bottom:1px solid rgba(27,78,114,.1)}
+.menu-tabs{display:flex;flex-wrap:nowrap;gap:.5rem;justify-content:center;max-width:1100px;margin:0 auto;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.menu-tabs::-webkit-scrollbar{display:none}
+.menu-tab-btn{background:var(--parchment);border:1px solid var(--blue);color:var(--blue);font-family:var(--font-d);font-size:.84rem;font-style:italic;padding:.5rem 1rem;cursor:pointer;transition:all .25s;border-radius:2px;white-space:nowrap;flex-shrink:0}
+.menu-tab-btn:hover{background:var(--blue-pale)}
+.menu-tab-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+/* ── DIETARY KEY ── */
+.diet-key{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;padding:.7rem 2rem;font-size:.72rem;color:var(--stone)}
+.diet-key span{display:inline-flex;align-items:center;gap:.3rem}
+/* ── PANELS ── */
+.menu-panel{display:none;padding:2rem 3rem 5rem;max-width:920px;margin:0 auto}
+.menu-panel.active{display:block}
+.panel-intro{text-align:center;margin-bottom:3rem}
+.panel-intro h2{font-family:var(--font-d);font-size:clamp(1.8rem,3.5vw,2.6rem);color:var(--ink)}
+.panel-intro h2 em{font-style:italic;color:var(--blue)}
+.panel-intro p{font-size:.95rem;color:var(--stone);max-width:600px;margin:.8rem auto 0;line-height:1.85}
+.menu-category{margin-bottom:3rem}
+.menu-category-title{font-family:var(--font-d);font-size:1.4rem;color:var(--ink);border-bottom:2px solid var(--blue);padding-bottom:.6rem;margin-bottom:1.5rem;display:inline-block}
+/* ── DISH CARD (matches reference Image 2) ── */
+.dish-card{background:var(--parchment-deep);border:1px solid rgba(27,78,114,.08);padding:1.3rem 1.6rem;margin-bottom:.9rem;border-radius:2px}
+.dish-card-header{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:.5rem}
+.dish-card-name{font-family:var(--font-d);font-size:1.15rem;font-weight:700;color:var(--ink)}
+.dish-card-price{font-family:var(--font-b);font-size:1rem;font-weight:600;color:var(--ink);white-space:nowrap}
+.dish-card-desc{font-size:.92rem;color:var(--stone);line-height:1.7;margin-bottom:.6rem}
+.dish-card-tags{display:flex;gap:.4rem;flex-wrap:wrap}
+.tag{font-size:.62rem;letter-spacing:.06em;padding:.2rem .65rem;border-radius:20px;font-weight:600;text-transform:uppercase;border:1px solid}
+.tag-v{background:rgba(60,140,80,.08);color:#2E8050;border-color:rgba(60,140,80,.3)}
+.tag-vg{background:rgba(40,120,90,.08);color:#1E7858;border-color:rgba(40,120,90,.3)}
+.tag-gf{background:rgba(150,110,30,.08);color:#8A6018;border-color:rgba(150,110,30,.3)}
+.tag-sf{background:rgba(27,78,114,.08);color:var(--blue);border-color:rgba(27,78,114,.3)}
+.tag-sp{background:rgba(180,60,30,.08);color:#B43C1E;border-color:rgba(180,60,30,.3)}
+/* ── PRIX FIXE CALLOUT ── */
+.prix-callout{background:var(--blue);color:#fff;padding:2.2rem 2.5rem;text-align:center;margin-bottom:2.5rem;border-radius:2px}
+.prix-callout h3{font-family:var(--font-d);font-size:1.5rem;margin-bottom:.4rem}
+.prix-callout p{font-size:.88rem;color:rgba(255,255,255,.78)}
+.prix-badge{display:inline-block;border:1px solid rgba(255,255,255,.45);font-family:var(--font-d);font-size:1.1rem;font-style:italic;padding:.4rem 1.6rem;margin:.7rem 0}
+/* ── WINE TABLE ── */
+.wine-group{margin-bottom:2.5rem}
+.wine-group-title{font-size:.62rem;letter-spacing:.35em;color:var(--blue);border-bottom:1px solid rgba(27,78,114,.15);padding-bottom:.55rem;margin-bottom:1rem;font-weight:600;text-transform:uppercase}
+.wine-row{display:grid;grid-template-columns:1fr auto;gap:1rem;padding:.7rem 0;border-bottom:1px solid rgba(0,0,0,.04);align-items:center}
+.wine-row:last-child{border-bottom:none}
+.wine-name{font-family:var(--font-d);font-size:.98rem;color:var(--ink)}
+.wine-region{font-size:.78rem;color:var(--mist);margin-top:.1rem;font-style:italic}
+.wine-price{font-size:.82rem;color:var(--blue);text-align:right;white-space:nowrap}
+.wine-price span{display:block;font-size:.7rem;color:var(--mist)}
+/* ── COCKTAIL GRID ── */
+.cocktail-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+@media(max-width:700px){.cocktail-grid{grid-template-columns:1fr}}
+/* ── CAFFE GRID ── */
+.caffe-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-top:1.2rem}
+@media(max-width:700px){.caffe-grid{grid-template-columns:repeat(2,1fr)}}
+.caffe-item{text-align:center;padding:1rem;border:1px solid rgba(27,78,114,.1);background:var(--parchment-deep);border-radius:2px}
+.caffe-name{font-family:var(--font-d);font-size:.9rem;color:var(--ink);margin-bottom:.25rem}
+.caffe-price{font-size:.85rem;color:var(--blue)}
+.course-label{font-size:.62rem;letter-spacing:.35em;color:var(--blue);font-weight:600;text-transform:uppercase;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(27,78,114,.12)}
+.callout-box{background:var(--parchment-deep);border-left:3px solid var(--blue);padding:1.2rem 1.5rem;margin-bottom:1.5rem;font-size:.85rem;color:var(--stone);font-style:italic}
+/* ── FOOTER ── */
+footer{background:var(--ink);padding:3rem;text-align:center}
+footer p{font-size:.85rem;color:#6B6359}
+footer a{color:rgba(137,196,225,.8);text-decoration:none}
+@media(max-width:768px){
+  nav{padding:0 1.5rem}
+  .nav-links{display:none}
+  .menu-hero{padding:120px 1.5rem 2rem}
+  .menu-tabs-wrap{padding:1.2rem 1.5rem}
+  .menu-panel{padding:2rem 1.5rem 3rem}
+}
+</style>
+</head>
+<body>
+<!-- ── INFO STRIP ── -->
+<div class="info-strip">
+  <a href="https://maps.google.com/?q=328+W+46th+St+New+York">328–330 W 46th St, New York, NY 10036</a>
+  <span class="sep">·</span>
+  <a href="tel:6466093417">(646) 609-3417</a>
+  <span class="sep">·</span>
+  <span>Mon–Fri 12pm–10pm &nbsp;|&nbsp; Sat–Sun 12pm–11pm</span>
+</div>
+<!-- ── NAV — identical to main site ── -->
+<nav>
+  <a href="index.html" class="nav-logo">Sicily Osteria</a>
+  <ul class="nav-links">
+    <li><a href="index.html#history">Our Story</a></li>
+    <li><a href="index.html#origin">Sicily</a></li>
+    <li><a href="menu.html" class="active">Menu</a></li>
+    <li><a href="index.html#experiences">Events</a></li>
+    <li><a href="menu.html" onclick="setTimeout(()=>switchTab('wine'),50)">Wine</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <button
+    onclick="window.location='index.html#reservation'"
+    style="background:#1B4E72;border:none;color:#fff;font-family:'DM Sans',system-ui,sans-serif;font-size:.76rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:.6rem 1.5rem;cursor:pointer;transition:background .25s;"
+    onmouseover="this.style.background='#2A6A9A'" onmouseout="this.style.background='#1B4E72'"
+  >Reserve a Table</button>
+</nav>
+<!-- ── HERO ── -->
+<div class="menu-hero">
+  <p class="menu-hero-eyebrow">Sicily Osteria · New York</p>
+  <h1 class="menu-hero-title">The <em>Menu</em></h1>
+  <p class="menu-hero-sub">A table rooted in Palermo, served in the heart of Times Square.</p>
+</div>
+<!-- ── TABS ── -->
+<div class="menu-tabs-wrap">
+  <div class="menu-tabs">
+    <button class="menu-tab-btn active" onclick="switchTab('dinner')">Dinner</button>
+    <button class="menu-tab-btn" onclick="switchTab('brunch')">Brunch</button>
+    <button class="menu-tab-btn" onclick="switchTab('kids')">Kids</button>
+    <button class="menu-tab-btn" onclick="switchTab('dolci')">Dolci / Caffè</button>
+    <button class="menu-tab-btn" onclick="switchTab('lunch')">Lunch PRIX FIXE</button>
+    <button class="menu-tab-btn" onclick="switchTab('happy')">Happy Hour</button>
+    <button class="menu-tab-btn" onclick="switchTab('cocktails')">Cocktails</button>
+    <button class="menu-tab-btn" onclick="switchTab('wine')">Wine List</button>
+  </div>
+</div>
+<div class="diet-key">
+  <span><span class="tag tag-v">V</span> Vegetarian</span>
+  <span><span class="tag tag-vg">VG</span> Vegan</span>
+  <span><span class="tag tag-gf">GF</span> Gluten Free</span>
+  <span><span class="tag tag-sf">SF</span> Seafood</span>
+  <span><span class="tag tag-sp">Spicy</span></span>
+</div>
+<!-- ═══════════════ DINNER ═══════════════ -->
+<div class="menu-panel active" id="panel-dinner">
+  <div class="panel-intro">
+    <h2>Dinner <em>à la carte</em></h2>
+    <p>Our dinner menu draws directly from Dina Malta's Palermo kitchen. Every pasta handmade to order, every protein sourced with intention.</p>
+  </div>
+  <div class="menu-category">
+    <div class="menu-category-title">La Strada</div>
+    <div class="callout-box">Available all day — the street food of Palermo's Ballarò market.</div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Pannelle</span><span class="dish-card-price">$12</span></div><div class="dish-card-desc">Chickpea fritters seasoned with lemon and fresh herbs — the iconic street food of Palermo's Ballarò market.</div><div class="dish-card-tags"><span class="tag tag-vg">VG</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Crocchè</span><span class="dish-card-price">$13</span></div><div class="dish-card-desc">Potato croquettes filled with smoked Provola and pistachio pesto. Crunchy outside, molten inside.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Arancino</span><span class="dish-card-price">$15</span></div><div class="dish-card-desc">Saffron-gold rice ball stuffed with fiery 'nduja sausage and melted mozzarella. Fried to order.</div><div class="dish-card-tags"><span class="tag tag-sp">Spicy</span></div></div>
+  </div>
+  <div class="menu-category">
+    <div class="menu-category-title">Antipasti</div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Ricotta al Forno</span><span class="dish-card-price">$16</span></div><div class="dish-card-desc">Warm buffalo milk cheese baked with local honey, Calabrian pepperoncino, and Sicilian dried oregano.</div><div class="dish-card-tags"><span class="tag tag-v">V</span><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Carciofi</span><span class="dish-card-price">$23</span></div><div class="dish-card-desc">Grilled artichoke hearts served with creamy burrata and briny Castelvetrano olives.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Polpette</span><span class="dish-card-price">$24</span></div><div class="dish-card-desc">Pat LaFrieda Wagyu beef meatballs, hand-rolled and simmered in San Marzano tomato sauce with fresh ricotta.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Tuna Tartare</span><span class="dish-card-price">$25</span></div><div class="dish-card-desc">Sashimi-grade tuna with ripe avocado and chipotle mayo, served with house-made potato chips.</div><div class="dish-card-tags"><span class="tag tag-gf">GF</span><span class="tag tag-sf">SF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Fritto Misto</span><span class="dish-card-price">$24</span></div><div class="dish-card-desc">Lightly battered shrimp, calamari, and seasonal vegetables, fried golden and served with house aioli.</div><div class="dish-card-tags"><span class="tag tag-sf">SF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Polipo alla Piastra</span><span class="dish-card-price">$25</span></div><div class="dish-card-desc">Grilled Portuguese octopus over a wild rice salad with dried cherries and toasted pine nuts.</div><div class="dish-card-tags"><span class="tag tag-gf">GF</span><span class="tag tag-sf">SF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Burrata Caprese</span><span class="dish-card-price">$23</span></div><div class="dish-card-desc">Sliced heirloom tomatoes and ripe avocado, topped with hand-pulled burrata.</div><div class="dish-card-tags"><span class="tag tag-v">V</span><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Polpette di Melanzane</span><span class="dish-card-price">$18</span></div><div class="dish-card-desc">Baked eggplant vegetarian "meatballs" with San Marzano tomato sauce and fresh ricotta.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Verdure alla Griglia</span><span class="dish-card-price">$18</span></div><div class="dish-card-desc">Grilled zucchini and eggplant dressed with ricotta salata and aged balsamic.</div><div class="dish-card-tags"><span class="tag tag-v">V</span><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Tortino di Granchio</span><span class="dish-card-price">$25</span></div><div class="dish-card-desc">Crab cakes with roasted bell peppers, red onion, avocado, sweet corn salad, and chipotle sauce.</div><div class="dish-card-tags"><span class="tag tag-sf">SF</span></div></div>
+  </div>
+  <div class="menu-category">
+    <div class="menu-category-title">Insalate</div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Verdi</span><span class="dish-card-price">$16</span></div><div class="dish-card-desc">Market greens with seasonal vegetables and a simple lemon vinaigrette.</div><div class="dish-card-tags"><span class="tag tag-vg">VG</span><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Finocchio</span><span class="dish-card-price">$18</span></div><div class="dish-card-desc">Shaved fennel with toasted hazelnut and blood orange segments.</div><div class="dish-card-tags"><span class="tag tag-v">V</span><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Cicoria</span><span class="dish-card-price">$18</span></div><div class="dish-card-desc">Bitter chicories with poached pear, shaved parmigiano, and an anchovy vinaigrette.</div><div class="dish-card-tags"><span class="tag tag-gf">GF</span><span class="tag tag-sf">SF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Caesar</span><span class="dish-card-price">$18</span></div><div class="dish-card-desc">Traditional Caesar with crisp romaine, house dressing, and golden croutons.</div><div class="dish-card-tags"></div></div>
+  </div>
+  <div class="menu-category">
+    <div class="menu-category-title">Pizza</div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Margherita</span><span class="dish-card-price">$22</span></div><div class="dish-card-desc">San Marzano tomatoes, fior di latte mozzarella, and fresh basil — the original, still the best.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Fichi</span><span class="dish-card-price">$24</span></div><div class="dish-card-desc">Fresh figs, four-cheese blend, rosemary, and a generous drizzle of hot honey.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Tartufo</span><span class="dish-card-price">$26</span></div><div class="dish-card-desc">Black truffle, mozzarella, mixed mushrooms, and thinly sliced speck.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Diavola</span><span class="dish-card-price">$24</span></div><div class="dish-card-desc">Hand-sliced pepperoni with a heavy pour of Calabrian chili oil. Genuinely spicy.</div><div class="dish-card-tags"><span class="tag tag-sp">Spicy</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Locale</span><span class="dish-card-price">$26</span></div><div class="dish-card-desc">Pepperoni, Italian sausage, red onion, and mozzarella, finished with hot honey.</div><div class="dish-card-tags"><span class="tag tag-sp">Spicy</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Parma</span><span class="dish-card-price">$26</span></div><div class="dish-card-desc">Prosciutto di Parma, squacquerone cream cheese, wild rocket, and aged balsamic.</div><div class="dish-card-tags"></div></div>
+  </div>
+  <div class="menu-category">
+    <div class="menu-category-title">Pasta</div>
+    <div class="callout-box">All pastas handmade daily — the heart of the Sicilian table.</div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Rigatoni alla Vodka</span><span class="dish-card-price">$25</span></div><div class="dish-card-desc">Spicy San Marzano tomato and pink vodka cream sauce with parmigiano and fresh basil.</div><div class="dish-card-tags"><span class="tag tag-v">V</span><span class="tag tag-sp">Spicy</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Paccheri alla Norma</span><span class="dish-card-price">$26</span></div><div class="dish-card-desc">The emblematic pasta of Catania — slow-roasted eggplant, crushed tomato, and ricotta salata.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Spaghetti Chitarra</span><span class="dish-card-price">$32</span></div><div class="dish-card-desc">Hand-cut guitar-string spaghetti with crabmeat, crushed pistachios, lemon, cream, and marjoram.</div><div class="dish-card-tags"><span class="tag tag-sf">SF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Lasagna</span><span class="dish-card-price">$30</span></div><div class="dish-card-desc">Layers of fresh pasta with sweet and hot Italian sausage, broccoli rabe, and tomato béchamel.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Casarecce</span><span class="dish-card-price">$28</span></div><div class="dish-card-desc">Twisted casarecce with pork sausage, slow-roasted tomato, cream, and robiolina cheese.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Spaghetti Carbonara</span><span class="dish-card-price">$28</span></div><div class="dish-card-desc">Slow-cured guanciale, double egg yolk, and aged Parmigiano. No cream, no shortcuts.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Linguine Vongole</span><span class="dish-card-price">$35</span></div><div class="dish-card-desc">Freshly shelled clams in a light white wine sauce with garlic and shaved bottarga.</div><div class="dish-card-tags"><span class="tag tag-sf">SF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Ravioli Aragosta</span><span class="dish-card-price">$35</span></div><div class="dish-card-desc">Handmade ravioli filled with Maine lobster, served with asparagus and pink vodka sauce.</div><div class="dish-card-tags"><span class="tag tag-sf">SF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Fettuccine ai Funghi</span><span class="dish-card-price">$35</span></div><div class="dish-card-desc">Housemade fettuccine with wild mushrooms and truffle sauce, finished with shaved black truffle.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Gnocchi alla Sorrentina</span><span class="dish-card-price">$25</span></div><div class="dish-card-desc">Pillowy potato gnocchi baked in San Marzano tomato sauce with fresh mozzarella and basil.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Rigatoni al Forno</span><span class="dish-card-price">$28</span></div><div class="dish-card-desc">Baked rigatoni with slow-cooked beef and pork ragù, sweet peas, and melted caciocavallo.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Spaghetti Cacio e Pepe</span><span class="dish-card-price">$25</span></div><div class="dish-card-desc">Spaghetti with aged Pecorino Romano and coarsely cracked black pepper. Deceptively simple.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+  </div>
+  <div class="menu-category">
+    <div class="menu-category-title">Secondi</div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Pollo Parmigiana</span><span class="dish-card-price">$36</span></div><div class="dish-card-desc">Breaded Bell &amp; Evans chicken layered with San Marzano tomatoes and 24-month aged Parmigiano.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Salmon Oreganata</span><span class="dish-card-price">$42</span></div><div class="dish-card-desc">Organic Alaskan King salmon with seasoned breadcrumbs, white wine lemon sauce, and fingerling potatoes.</div><div class="dish-card-tags"><span class="tag tag-sf">SF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Parmigiana di Melanzane</span><span class="dish-card-price">$28</span></div><div class="dish-card-desc">Whole eggplant baked with layers of mozzarella and slow-cooked tomato sauce.</div><div class="dish-card-tags"><span class="tag tag-v">V</span><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Polletto</span><span class="dish-card-price">$34</span></div><div class="dish-card-desc">Roasted chicken breast with squash, sweet red pepper, olives, and fresh mint.</div><div class="dish-card-tags"><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Branzino</span><span class="dish-card-price">$37</span></div><div class="dish-card-desc">Grilled sea bass fillets dressed with salmoriglio — Sicilian olive oil, lemon, oregano, garlic.</div><div class="dish-card-tags"><span class="tag tag-gf">GF</span><span class="tag tag-sf">SF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Vitello Marsala</span><span class="dish-card-price">$45</span></div><div class="dish-card-desc">Veal scallopini sautéed with mixed mushrooms in a rich Marsala wine reduction.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Bistecchina</span><span class="dish-card-price">$42</span></div><div class="dish-card-desc">Grilled Pat LaFrieda skirt steak with roasted lemon potatoes and house chimichurri.</div><div class="dish-card-tags"><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Bistecca</span><span class="dish-card-price">$48</span></div><div class="dish-card-desc">Pat LaFrieda 30-day dry-aged NY strip with crispy fingerling potatoes and charred spring onions.</div><div class="dish-card-tags"><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Scampi</span><span class="dish-card-price">$42</span></div><div class="dish-card-desc">Jumbo shrimp in a white wine and garlic sauce, served with sautéed broccolini.</div><div class="dish-card-tags"><span class="tag tag-gf">GF</span><span class="tag tag-sf">SF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Filetto di Manzo</span><span class="dish-card-price">$55</span></div><div class="dish-card-desc">Pat LaFrieda 8oz centre-cut filet mignon with Barolo reduction and roasted lemon potatoes.</div><div class="dish-card-tags"><span class="tag tag-gf">GF</span></div></div>
+  </div>
+  <div class="menu-category">
+    <div class="menu-category-title">Contorni</div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Lemon Potatoes</span><span class="dish-card-price">$10</span></div><div class="dish-card-desc">Roasted potatoes seasoned generously with Sicilian lemon and fresh herbs.</div><div class="dish-card-tags"><span class="tag tag-vg">VG</span><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Brussels Sprouts</span><span class="dish-card-price">$10</span></div><div class="dish-card-desc">Sautéed with garlic and Partanna extra virgin olive oil.</div><div class="dish-card-tags"><span class="tag tag-vg">VG</span><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Sautéed Escarole</span><span class="dish-card-price">$10</span></div><div class="dish-card-desc">Tender escarole sautéed with garlic and olive oil — bitter, silky, deeply Sicilian.</div><div class="dish-card-tags"><span class="tag tag-vg">VG</span><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Broccoli Rabe</span><span class="dish-card-price">$10</span></div><div class="dish-card-desc">Sautéed with garlic, chili, and Partanna extra virgin olive oil.</div><div class="dish-card-tags"><span class="tag tag-vg">VG</span><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Pane della Casa</span><span class="dish-card-price">$5</span></div><div class="dish-card-desc">Our housemade bread, served warm with olive oil for dipping.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+  </div>
+</div>
+<!-- ═══════════════ BRUNCH ═══════════════ -->
+<div class="menu-panel" id="panel-brunch">
+  <div class="panel-intro">
+    <h2>Weekend <em>Brunch</em></h2>
+    <p>Saturday and Sunday, 12pm to 4pm. The food is decidedly Sicilian; the mood is decidedly relaxed.</p>
+  </div>
+  <div class="prix-callout">
+    <h3>$20 Bottomless Brunch Drinks</h3>
+    <div class="prix-badge">2 hours &nbsp;|&nbsp; $10 by the glass</div>
+    <p>Mimosa · Bellini · Bloody Mary · Screwdriver · Sangria</p>
+  </div>
+  <div class="menu-category">
+    <div class="menu-category-title">Brunch Plates</div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Eggs Your Way</span><span class="dish-card-price">$16</span></div><div class="dish-card-desc">Two eggs cooked your way with crispy lemon potatoes and pancetta.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Frittata</span><span class="dish-card-price">$19</span></div><div class="dish-card-desc">Baked egg frittata with spinach, mushrooms, and melted caciocavallo cheese.</div><div class="dish-card-tags"><span class="tag tag-v">V</span><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Purgatorio Siciliano</span><span class="dish-card-price">$22</span></div><div class="dish-card-desc">Eggs baked in spiced tomato sauce with roasted eggplant and fresh ricotta.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Avocado Toast</span><span class="dish-card-price">$21</span></div><div class="dish-card-desc">Grilled challah bread with smashed avocado, smoked salmon, and a poached egg.</div><div class="dish-card-tags"><span class="tag tag-sf">SF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Omelet Siciliana</span><span class="dish-card-price">$22</span></div><div class="dish-card-desc">Folded omelet with creamy stracciatella cheese, ripe tomatoes, and fresh basil.</div><div class="dish-card-tags"><span class="tag tag-v">V</span><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Pistachio Toast</span><span class="dish-card-price">$19</span></div><div class="dish-card-desc">Challah French toast stuffed with mascarpone and crushed Bronte pistachios.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Eggs Benedict</span><span class="dish-card-price">$23</span></div><div class="dish-card-desc">Two poached eggs over grilled bread with prosciutto and house hollandaise.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Bistecca &amp; Eggs</span><span class="dish-card-price">$28</span></div><div class="dish-card-desc">Strip steak with marinated peppers, salsa verde, and two fried eggs.</div><div class="dish-card-tags"><span class="tag tag-gf">GF</span></div></div>
+  </div>
+  <div class="callout-box">Sides $8 — Pancetta · Salsiccia · Lemon Potatoes · Roasted Potatoes with Peppers &amp; Onions · Mixed Greens</div>
+</div>
+<!-- ═══════════════ KIDS ═══════════════ -->
+<div class="menu-panel" id="panel-kids">
+  <div class="panel-intro">
+    <h2>For <em>Little Ones</em></h2>
+    <p>Real food, generous portions. All plates served with a choice of lemonade, soda, Shirley Temple, or juice.</p>
+  </div>
+  <div class="menu-category">
+    <div class="menu-category-title">Kids Mains</div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Margherita Pizza</span><span class="dish-card-price">$12</span></div><div class="dish-card-desc">Personal-sized Neapolitan pizza with San Marzano tomato sauce and mozzarella.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Penne</span><span class="dish-card-price">$12</span></div><div class="dish-card-desc">Penne tossed in a simple, comforting butter sauce.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Spaghetti Pomodoro</span><span class="dish-card-price">$12</span></div><div class="dish-card-desc">Spaghetti in a simple, sweet San Marzano tomato sauce. Add meatballs $3.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Pollo Milanese</span><span class="dish-card-price">$12</span></div><div class="dish-card-desc">Crispy chicken tenders served with golden french fries.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Mac &amp; Cheese</span><span class="dish-card-price">$12</span></div><div class="dish-card-desc">Creamy, comforting mac and cheese — a universal language.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+  </div>
+  <div class="callout-box">Sides $5 — French Fries · Mashed Potatoes · Broccoli</div>
+</div>
+<!-- ═══════════════ DOLCI / CAFFE ═══════════════ -->
+<div class="menu-panel" id="panel-dolci">
+  <div class="panel-intro">
+    <h2>Dolci &amp; <em>Caffè</em></h2>
+    <p>Desserts by Chef Alessandro Duerto — made in-house daily. Ending the meal the Sicilian way.</p>
+  </div>
+  <div class="menu-category">
+    <div class="menu-category-title">Dolci</div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Limone di Sicilia</span><span class="dish-card-price">$17</span></div><div class="dish-card-desc">Our signature lemon cheesecake mousse, lemon confit, lemon crème, mint, salty crumble.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Torta Setteveli</span><span class="dish-card-price">$17</span></div><div class="dish-card-desc">Seven-layer cake — chocolate mousse, praliné chantilly, cocoa sponge, hazelnut crunch, cocoa glaze.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Tiramisù della Casa</span><span class="dish-card-price">$17</span></div><div class="dish-card-desc">Mascarpone crème, espresso-soaked ladyfingers, chantilly, cocoa powder, mocha sauce.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Torta al Formaggio e Pistacchio</span><span class="dish-card-price">$17</span></div><div class="dish-card-desc">Sicilian pistachio basque cheesecake, served with amarena cherries.</div><div class="dish-card-tags"><span class="tag tag-v">V</span><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">La Regina</span><span class="dish-card-price">$17</span></div><div class="dish-card-desc">Mixed berry layered cake — vanilla biscuit, diplomat crème, strawberry compote, vanilla mousse.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Crostata di Mele</span><span class="dish-card-price">$17</span></div><div class="dish-card-desc">Caramelized apples, vanilla biscuit, pecan crumble, salted caramel, fior di latte gelato.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Due Cannoli</span><span class="dish-card-price">$12</span></div><div class="dish-card-desc">Orange ricotta cannoli with candied orange and pistachios; classic ricotta cannoli with chocolate chips.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+  </div>
+  <div class="menu-category">
+    <div class="menu-category-title">Gelato e Sorbetto</div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Affogato</span><span class="dish-card-price">$12</span></div><div class="dish-card-desc">Illy espresso poured tableside over house-made vanilla gelato.</div><div class="dish-card-tags"><span class="tag tag-v">V</span><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Gelato</span><span class="dish-card-price">$6</span></div><div class="dish-card-desc">Chef's daily selection — made fully in-house.</div><div class="dish-card-tags"><span class="tag tag-v">V</span><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Sorbetto</span><span class="dish-card-price">$6</span></div><div class="dish-card-desc">Chef's daily selection — made fully in-house.</div><div class="dish-card-tags"><span class="tag tag-vg">VG</span><span class="tag tag-gf">GF</span></div></div>
+  </div>
+  <div class="menu-category">
+    <div class="menu-category-title">Caffè Illy</div>
+    <div class="caffe-grid">
+      <div class="caffe-item"><div class="caffe-name">Espresso</div><div class="caffe-price">$5.50</div></div>
+      <div class="caffe-item"><div class="caffe-name">Espresso Doppio</div><div class="caffe-price">$6.50</div></div>
+      <div class="caffe-item"><div class="caffe-name">Cappuccino</div><div class="caffe-price">$7.50</div></div>
+      <div class="caffe-item"><div class="caffe-name">Americano</div><div class="caffe-price">$5.50</div></div>
+      <div class="caffe-item"><div class="caffe-name">Caffè Latte</div><div class="caffe-price">$7.50</div></div>
+      <div class="caffe-item"><div class="caffe-name">Macchiato</div><div class="caffe-price">$6.50</div></div>
+      <div class="caffe-item"><div class="caffe-name">Tea</div><div class="caffe-price">$5.00</div></div>
+    </div>
+  </div>
+</div>
+<!-- ═══════════════ LUNCH PRIX FIXE ═══════════════ -->
+<div class="menu-panel" id="panel-lunch">
+  <div class="panel-intro">
+    <h2>Lunch <em>Prix Fixe</em></h2>
+    <p>Monday through Friday, 12pm to 4pm.</p>
+  </div>
+  <div class="prix-callout">
+    <h3>Three Courses</h3>
+    <div class="prix-badge">$25 per person</div>
+    <p>One starter · One main · One dessert</p>
+  </div>
+  <div class="menu-category">
+    <div class="course-label">Course One</div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Arancino</span></div><div class="dish-card-desc">Saffron rice, 'nduja, mozzarella.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Ricotta al Forno</span></div><div class="dish-card-desc">Baked buffalo milk cheese, honey, pepperoncino.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Insalata Verdi</span></div><div class="dish-card-desc">Mixed greens, seasonal vegetables.</div><div class="dish-card-tags"><span class="tag tag-vg">VG</span><span class="tag tag-gf">GF</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Polpette</span></div><div class="dish-card-desc">Wagyu beef meatballs, tomato, ricotta.</div><div class="dish-card-tags"></div></div>
+  </div>
+  <div class="menu-category">
+    <div class="course-label">Course Two</div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Fettuccine ai Funghi</span></div><div class="dish-card-desc">Housemade fettuccine, mixed wild mushrooms, truffle sauce.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Piadina</span></div><div class="dish-card-desc">Flatbread sandwich, eggplant, caciocavallo.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Milanesa di Pollo</span></div><div class="dish-card-desc">Breaded cutlet, arugula, salsa verde.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Casarecce</span></div><div class="dish-card-desc">Pork sausage, tomato, cream, robiolina.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Branzino</span><span class="dish-card-price">+$10</span></div><div class="dish-card-desc">Grilled sea bass with salmoriglio sauce.</div><div class="dish-card-tags"><span class="tag tag-gf">GF</span><span class="tag tag-sf">SF</span></div></div>
+  </div>
+  <div class="menu-category">
+    <div class="course-label">Course Three</div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Cannoli</span></div><div class="dish-card-desc">Classic ricotta with candied orange and toasted pistachios.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Cioccolato</span></div><div class="dish-card-desc">Chocolate mousse sphere, hazelnut crunch.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+  </div>
+</div>
+<!-- ═══════════════ HAPPY HOUR ═══════════════ -->
+<div class="menu-panel" id="panel-happy">
+  <div class="panel-intro">
+    <h2>Happy <em>Hour</em></h2>
+    <p>Sunday through Thursday, 3 to 7:30pm at the bar. Aperitivo the Sicilian way.</p>
+  </div>
+  <div class="prix-callout">
+    <h3>Sunday – Thursday · 3–7:30pm</h3>
+    <p>Available at the bar only · Walk-ins welcome</p>
+  </div>
+  <div class="menu-category">
+    <div class="menu-category-title">Bevande</div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Birra</span><span class="dish-card-price">$6</span></div><div class="dish-card-desc">Amstel Light · Flower Power · Fat Tire.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Vini</span><span class="dish-card-price">$9</span></div><div class="dish-card-desc">House Red · White · Rosé · Sparkling.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Cocktails</span><span class="dish-card-price">$10</span></div><div class="dish-card-desc">Aperol Spritz · Limoncello Spritz · Hugo Spritz · Margarita · Negroni.</div><div class="dish-card-tags"></div></div>
+  </div>
+  <div class="menu-category">
+    <div class="menu-category-title">Small Bites</div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Panelle</span><span class="dish-card-price">$7</span></div><div class="dish-card-desc">Crispy chickpea fritters, the street food of Palermo.</div><div class="dish-card-tags"><span class="tag tag-vg">VG</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Crocchè</span><span class="dish-card-price">$9</span></div><div class="dish-card-desc">Potato croquette, smoked provola, pistachio pesto.</div><div class="dish-card-tags"><span class="tag tag-v">V</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Arancini</span><span class="dish-card-price">$10</span></div><div class="dish-card-desc">Saffron rice ball, 'nduja, mozzarella.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Polpette</span><span class="dish-card-price">$2</span></div><div class="dish-card-desc">Wagyu beef meatballs — 6 minimum, price per 2 pieces.</div><div class="dish-card-tags"></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Oyster</span><span class="dish-card-price">$2</span></div><div class="dish-card-desc">Fresh oysters on the half shell — 6 minimum order.</div><div class="dish-card-tags"><span class="tag tag-gf">GF</span><span class="tag tag-sf">SF</span></div></div>
+  </div>
+</div>
+<!-- ═══════════════ COCKTAILS ═══════════════ -->
+<div class="menu-panel" id="panel-cocktails">
+  <div class="panel-intro">
+    <h2>Signature <em>Cocktails</em></h2>
+    <p>All $18 — add $3 for premium spirits: Grey Goose · Ketel One · Tito's · Hendrick's · Tanqueray · Bombay Sapphire · Casamigos · Don Julio · Patrón · Bacardi · Jack Daniel's.</p>
+  </div>
+  <div class="cocktail-grid">
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Basilico</span><span class="dish-card-price">$18</span></div><div class="dish-card-desc">Fresh muddled basil, gin, lemon juice.</div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">The Moulin Rouge</span><span class="dish-card-price">$18</span></div><div class="dish-card-desc">Vodka, fresh lime juice, ginger beer.</div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Negroni Sbagliato</span><span class="dish-card-price">$18</span></div><div class="dish-card-desc">Gin, Campari, Cinzano sweet vermouth, Prosecco.</div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Jalapeño Margarita</span><span class="dish-card-price">$18</span></div><div class="dish-card-desc">Tequila, muddled jalapeño, Cointreau, lime juice.</div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Watermelon Sugar</span><span class="dish-card-price">$18</span></div><div class="dish-card-desc">Vodka, fresh watermelon juice, sugar rim.</div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Capri Crush</span><span class="dish-card-price">$18</span></div><div class="dish-card-desc">Gin, vodka, rum, limoncello, ginger beer, egg white.</div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Mint Condition</span><span class="dish-card-price">$18</span></div><div class="dish-card-desc">Muddled cucumber and mint, vodka, lime juice.</div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Sicilian Breeze</span><span class="dish-card-price">$18</span></div><div class="dish-card-desc">Rum, pineapple juice, ginger beer, lime, bitters.</div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Limoncello Spritz</span><span class="dish-card-price">$18</span></div><div class="dish-card-desc">Limoncello, Prosecco, club soda, fresh lemon.</div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Illy Espresso Martini</span><span class="dish-card-price">$18</span></div><div class="dish-card-desc">Vodka, Kahlúa, Illy espresso shot.</div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Ginger Smash</span><span class="dish-card-price">$18</span></div><div class="dish-card-desc">Bourbon, ginger syrup, pineapple, lemon, egg white.</div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">The Sicily Aperol Spritz</span><span class="dish-card-price">$18</span></div><div class="dish-card-desc">Aperol, Prosecco, club soda, orange slice.</div></div>
+  </div>
+  <div class="menu-category" style="margin-top:2.5rem;">
+    <div class="menu-category-title">Mocktails — $12</div>
+    <div class="cocktail-grid">
+      <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Watermelon Refresher</span><span class="dish-card-price">$12</span></div><div class="dish-card-desc">Watermelon purée, lemon juice, simple syrup.</div><div class="dish-card-tags"><span class="tag tag-vg">VG</span></div></div>
+      <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Cucumber Cooler</span><span class="dish-card-price">$12</span></div><div class="dish-card-desc">Muddled cucumber, mint, lime &amp; lemon juice.</div><div class="dish-card-tags"><span class="tag tag-vg">VG</span></div></div>
+      <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Main Squeeze</span><span class="dish-card-price">$12</span></div><div class="dish-card-desc">Sparkling grapefruit juice, simple syrup, lemon.</div><div class="dish-card-tags"><span class="tag tag-vg">VG</span></div></div>
+      <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Chili Passion</span><span class="dish-card-price">$12</span></div><div class="dish-card-desc">Passion fruit, cranberry, orange juice, ginger beer, chili flakes.</div><div class="dish-card-tags"><span class="tag tag-vg">VG</span><span class="tag tag-sp">Spicy</span></div></div>
+    </div>
+  </div>
+  <div class="menu-category" style="margin-top:2.5rem;">
+    <div class="menu-category-title">Birra</div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Peroni · Amstel Light · Moretti · Flower Power · Fat Tire</span><span class="dish-card-price">$9</span></div></div>
+    <div class="dish-card"><div class="dish-card-header"><span class="dish-card-name">Non-Alcoholic — Heineken 0.0 · Peroni 0.0</span><span class="dish-card-price">$9</span></div></div>
+  </div>
+</div>
+<!-- ═══════════════ WINE LIST ═══════════════ -->
+<div class="menu-panel" id="panel-wine">
+  <div class="panel-intro">
+    <h2>Wine <em>List</em></h2>
+    <p>From volcanic Sicilian whites to Reserve Barolo and Dom Pérignon — a cellar built for every occasion.</p>
+  </div>
+  <div class="wine-group">
+    <div class="wine-group-title">Bianchi, Spumante e Rosati</div>
+    <div class="wine-row"><div><div class="wine-name">Orvieto — La Lecciaia</div><div class="wine-region">Umbria</div></div><div class="wine-price"><span>Glass $15</span>Bottle $40</div></div>
+    <div class="wine-row"><div><div class="wine-name">Frascati — Via Rovana</div><div class="wine-region">Lazio</div></div><div class="wine-price"><span>Glass $15</span>Bottle $40</div></div>
+    <div class="wine-row"><div><div class="wine-name">Rosé — Bertani</div><div class="wine-region">Veneto</div></div><div class="wine-price"><span>Glass $15</span>Bottle $40</div></div>
+    <div class="wine-row"><div><div class="wine-name">Prosecco — Gabbiano</div><div class="wine-region">Veneto</div></div><div class="wine-price"><span>Glass $15</span>Bottle $40</div></div>
+    <div class="wine-row"><div><div class="wine-name">Rosé — Whispering Angel</div><div class="wine-region">Côtes de Provence</div></div><div class="wine-price"><span>Glass $20</span>Bottle $60</div></div>
+    <div class="wine-row"><div><div class="wine-name">Pinot Grigio — Tunella</div><div class="wine-region">Friuli</div></div><div class="wine-price"><span>Glass $20</span>Bottle $60</div></div>
+    <div class="wine-row"><div><div class="wine-name">Sauvignon Blanc — Tunella</div><div class="wine-region">Friuli</div></div><div class="wine-price"><span>Glass $20</span>Bottle $60</div></div>
+    <div class="wine-row"><div><div class="wine-name">Greco di Tufo — Feudi di San Gregorio</div><div class="wine-region">Campania</div></div><div class="wine-price"><span>Glass $20</span>Bottle $60</div></div>
+    <div class="wine-row"><div><div class="wine-name">Prosecco — Jeio</div><div class="wine-region">Veneto</div></div><div class="wine-price"><span>Glass $20</span>Bottle $60</div></div>
+    <div class="wine-row"><div><div class="wine-name">Vernaccia — Teruzzi</div><div class="wine-region">Toscana</div></div><div class="wine-price"><span>Glass $20</span>Bottle $60</div></div>
+    <div class="wine-row"><div><div class="wine-name">Gavi di Gavi — La Scolca White Label</div><div class="wine-region">Piemonte</div></div><div class="wine-price"><span>Glass $20</span>Bottle $60</div></div>
+    <div class="wine-row"><div><div class="wine-name">Terre di Tufi — Teruzzi</div><div class="wine-region">Toscana</div></div><div class="wine-price"><span>Glass $20</span>Bottle $60</div></div>
+    <div class="wine-row"><div><div class="wine-name">Sancerre — Domaine Chatelain</div><div class="wine-region">Loire Vallée</div></div><div class="wine-price"><span>Glass $25</span>Bottle $80</div></div>
+    <div class="wine-row"><div><div class="wine-name">Vermentino — Antinori</div><div class="wine-region">Umbria</div></div><div class="wine-price"><span>Glass $25</span>Bottle $80</div></div>
+    <div class="wine-row"><div><div class="wine-name">Chardonnay — Stags Leap</div><div class="wine-region">California</div></div><div class="wine-price"><span>Glass $25</span>Bottle $80</div></div>
+    <div class="wine-row"><div><div class="wine-name">Grillo Sursur — Donnafugata</div><div class="wine-region">Sicilia</div></div><div class="wine-price"><span>Glass $25</span>Bottle $80</div></div>
+    <div class="wine-row"><div><div class="wine-name">Etna Bianco — Donnafugata Sul Vulcano</div><div class="wine-region">Sicilia</div></div><div class="wine-price"><span>Glass $25</span>Bottle $80</div></div>
+    <div class="wine-row"><div><div class="wine-name">Chardonnay — Antinori Bramito</div><div class="wine-region">Umbria</div></div><div class="wine-price"><span>Glass $25</span>Bottle $80</div></div>
+    <div class="wine-row"><div><div class="wine-name">Chardonnay — The Prisoner</div><div class="wine-region">California</div></div><div class="wine-price">$100</div></div>
+    <div class="wine-row"><div><div class="wine-name">Sauvignon Blanc — Stags Leap</div><div class="wine-region">California</div></div><div class="wine-price">$100</div></div>
+    <div class="wine-row"><div><div class="wine-name">Rosé — Donnafugata by Dolce &amp; Gabbana</div><div class="wine-region">Sicilia</div></div><div class="wine-price">$100</div></div>
+    <div class="wine-row"><div><div class="wine-name">Gavi di Gavi — La Scolca Black Label</div><div class="wine-region">Piemonte</div></div><div class="wine-price">$100</div></div>
+  </div>
+  <div class="wine-group">
+    <div class="wine-group-title">Champagne</div>
+    <div class="wine-row"><div><div class="wine-name">Moët Impérial</div><div class="wine-region">France</div></div><div class="wine-price">$125</div></div>
+    <div class="wine-row"><div><div class="wine-name">Veuve Clicquot</div><div class="wine-region">France</div></div><div class="wine-price">$135</div></div>
+    <div class="wine-row"><div><div class="wine-name">Dom Pérignon</div><div class="wine-region">France</div></div><div class="wine-price">$375</div></div>
+  </div>
+  <div class="wine-group">
+    <div class="wine-group-title">Rossi</div>
+    <div class="wine-row"><div><div class="wine-name">Sangiovese — Monte degli Angeli</div><div class="wine-region">Puglia</div></div><div class="wine-price"><span>Glass $15</span>Bottle $40</div></div>
+    <div class="wine-row"><div><div class="wine-name">Nero d'Avola — Masseria Parione</div><div class="wine-region">Sicilia</div></div><div class="wine-price"><span>Glass $15</span>Bottle $40</div></div>
+    <div class="wine-row"><div><div class="wine-name">Montepulciano — Castorani</div><div class="wine-region">Abruzzo</div></div><div class="wine-price"><span>Glass $20</span>Bottle $60</div></div>
+    <div class="wine-row"><div><div class="wine-name">Cabernet Sauvignon — Cugini</div><div class="wine-region">Friuli</div></div><div class="wine-price"><span>Glass $20</span>Bottle $60</div></div>
+    <div class="wine-row"><div><div class="wine-name">Chianti Classico — Peppoli Antinori</div><div class="wine-region">Toscana</div></div><div class="wine-price"><span>Glass $20</span>Bottle $60</div></div>
+    <div class="wine-row"><div><div class="wine-name">Valpolicella Ripasso — Zeni</div><div class="wine-region">Veneto</div></div><div class="wine-price"><span>Glass $20</span>Bottle $60</div></div>
+    <div class="wine-row"><div><div class="wine-name">Etna Rosso — Donnafugata</div><div class="wine-region">Sicilia</div></div><div class="wine-price"><span>Glass $20</span>Bottle $60</div></div>
+    <div class="wine-row"><div><div class="wine-name">Nero d'Avola — Donnafugata</div><div class="wine-region">Sicilia</div></div><div class="wine-price"><span>Glass $20</span>Bottle $60</div></div>
+    <div class="wine-row"><div><div class="wine-name">Super Tuscan — Villa Antinori</div><div class="wine-region">Toscana</div></div><div class="wine-price"><span>Glass $20</span>Bottle $60</div></div>
+    <div class="wine-row"><div><div class="wine-name">Barbera d'Alba — Casata Monticello</div><div class="wine-region">Piemonte</div></div><div class="wine-price"><span>Glass $20</span>Bottle $60</div></div>
+    <div class="wine-row"><div><div class="wine-name">Nebbiolo d'Alba — Patrizi</div><div class="wine-region">Piemonte</div></div><div class="wine-price"><span>Glass $20</span>Bottle $60</div></div>
+    <div class="wine-row"><div><div class="wine-name">Barolo — Tenute Neriano</div><div class="wine-region">Piemonte</div></div><div class="wine-price"><span>Glass $25</span>Bottle $80</div></div>
+    <div class="wine-row"><div><div class="wine-name">Barbaresco — Cantina del Nebbiolo</div><div class="wine-region">Piemonte</div></div><div class="wine-price"><span>Glass $25</span>Bottle $80</div></div>
+    <div class="wine-row"><div><div class="wine-name">Amarone Classico — Antonio Guadioso</div><div class="wine-region">Veneto</div></div><div class="wine-price"><span>Glass $25</span>Bottle $80</div></div>
+    <div class="wine-row"><div><div class="wine-name">Primitivo — Tormaresca</div><div class="wine-region">Piemonte</div></div><div class="wine-price"><span>Glass $25</span>Bottle $80</div></div>
+    <div class="wine-row"><div><div class="wine-name">Pinot Noir — The Prisoner</div><div class="wine-region">Napa Valley</div></div><div class="wine-price"><span>Glass $25</span>Bottle $80</div></div>
+    <div class="wine-row"><div><div class="wine-name">Super Tuscan — Bolgheri Rosso Michele Satta</div><div class="wine-region">Toscana</div></div><div class="wine-price"><span>Glass $25</span>Bottle $80</div></div>
+    <div class="wine-row"><div><div class="wine-name">Brunello di Montalcino — Collina di Lecci</div><div class="wine-region">Toscana</div></div><div class="wine-price"><span>Glass $25</span>Bottle $80</div></div>
+    <div class="wine-row"><div><div class="wine-name">Gattinara — Travaglini</div><div class="wine-region">Piemonte</div></div><div class="wine-price">$100</div></div>
+    <div class="wine-row"><div><div class="wine-name">Barolo Riserva — Terre del Barolo</div><div class="wine-region">Piemonte</div></div><div class="wine-price">$100</div></div>
+    <div class="wine-row"><div><div class="wine-name">Amarone della Valpolicella — Zeni</div><div class="wine-region">Veneto</div></div><div class="wine-price">$100</div></div>
+    <div class="wine-row"><div><div class="wine-name">Etna Rosso — Donnafugata by Dolce &amp; Gabbana</div><div class="wine-region">Sicilia</div></div><div class="wine-price">$100</div></div>
+    <div class="wine-row"><div><div class="wine-name">Petite Sirah — Stags Leap</div><div class="wine-region">California</div></div><div class="wine-price">$100</div></div>
+    <div class="wine-row"><div><div class="wine-name">Cabernet Sauvignon — The Prisoner</div><div class="wine-region">Napa Valley</div></div><div class="wine-price">$100</div></div>
+    <div class="wine-row"><div><div class="wine-name">Red Blend — The Prisoner Obsidian Ridge</div><div class="wine-region">California</div></div><div class="wine-price">$100</div></div>
+  </div>
+  <div class="wine-group">
+    <div class="wine-group-title">Reserve List</div>
+    <div class="wine-row"><div><div class="wine-name">Amarone della Valpolicella — Bertani</div><div class="wine-region">Veneto</div></div><div class="wine-price">$150</div></div>
+    <div class="wine-row"><div><div class="wine-name">Cabernet Sauvignon — Stags Leap</div><div class="wine-region">California</div></div><div class="wine-price">$150</div></div>
+    <div class="wine-row"><div><div class="wine-name">Cabernet Sauvignon — Caymus</div><div class="wine-region">California</div></div><div class="wine-price">$150</div></div>
+    <div class="wine-row"><div><div class="wine-name">Super Tuscan — Tignanello Antinori</div><div class="wine-region">Toscana</div></div><div class="wine-price">$200</div></div>
+    <div class="wine-row"><div><div class="wine-name">Barolo — Gaja Dagromis</div><div class="wine-region">Piemonte</div></div><div class="wine-price">$200</div></div>
+    <div class="wine-row"><div><div class="wine-name">Cabernet Sauvignon — Opus Overture</div><div class="wine-region">California</div></div><div class="wine-price">$200</div></div>
+    <div class="wine-row"><div><div class="wine-name">Cabernet Sauvignon — Opus One</div><div class="wine-region">Napa Valley</div></div><div class="wine-price">$500</div></div>
+    <div class="wine-row"><div><div class="wine-name">Barolo — Gaja Contiesa</div><div class="wine-region">Piemonte</div></div><div class="wine-price">$500</div></div>
+  </div>
+</div>
+<!-- FOOTER -->
+<footer>
+  <p style="font-family:'DM Serif Display',Georgia,serif;font-size:1.2rem;font-style:italic;color:rgba(244,239,230,.6);margin-bottom:.8rem;">Sicily Osteria</p>
+  <p>328–330 W 46th St, New York, NY 10036 &nbsp;·&nbsp; <a href="tel:6466093417">(646) 609-3417</a></p>
+  <p style="margin-top:.5rem;font-size:.75rem;color:#4A4540;">© 2026 Sicily Osteria · NYCRG</p>
+</footer>
+<script>
+function switchTab(tab){
+  document.querySelectorAll('.menu-tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.menu-panel').forEach(p=>p.classList.remove('active'));
+  const tabs=['dinner','brunch','kids','dolci','lunch','happy','cocktails','wine'];
+  const idx=tabs.indexOf(tab);
+  if(idx>=0) document.querySelectorAll('.menu-tab-btn')[idx].classList.add('active');
+  document.getElementById('panel-'+tab).classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+}
+</script>
+</body>
+</html>
